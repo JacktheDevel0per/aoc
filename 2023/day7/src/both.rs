@@ -15,6 +15,45 @@ enum Hand {
 
 
 
+impl Hand {
+    fn better_hand(&self, other: &Self) -> std::cmp::Ordering {
+        use std::cmp::Ordering::*;
+        match (self, other) {
+            (Self::FiveOfAKind(a), Self::FiveOfAKind(b)) => a.compare_power(b),
+            (Self::FiveOfAKind(_), _) => Greater,
+            (_, Self::FiveOfAKind(_)) => Less,
+            (Self::FourOfAKind(a), Self::FourOfAKind(b)) => a.compare_power(b),
+            (Self::FourOfAKind(_), _) => Greater,
+            (_, Self::FourOfAKind(_)) => Less,
+            (Self::FullHouse(a, b), Self::FullHouse(c, d)) => {
+                match a.compare_power(c) {
+                    Equal => b.compare_power(d),
+                    x => x,
+                }
+            }
+            (Self::FullHouse(_,_), _) => Greater,
+            (_, Self::FullHouse(_, _)) => Less,
+            (Self::ThreeOfAKind(a), Self::ThreeOfAKind(b)) => a.compare_power(b),
+            (Self::ThreeOfAKind(_), _) => Greater,
+            (_, Self::ThreeOfAKind(_)) => Less,
+            (Self::TwoPair(a, b), Self::TwoPair(c, d)) => {
+                match a.compare_power(c) {
+                    Equal => b.compare_power(d),
+                    x => x,
+                }
+            }
+            (Self::TwoPair(_,_), _) => Greater,
+            (_, Self::TwoPair(_, _)) => Less,
+            (Self::Pair(a), Self::Pair(b)) => a.compare_power(b),
+            (Self::Pair(_), _) => Greater,
+            (_, Self::Pair(_)) => Less,
+            (Self::HighCard(a), Self::HighCard(b)) => a.compare_power(b),
+        }
+    }
+}
+
+
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 enum PlayingCard {
     Ace,
