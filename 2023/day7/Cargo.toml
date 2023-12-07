@@ -9,3 +9,6 @@ edition = "2021"
 
 
 common = { path = "../common" }
+
+
+itertools = "0.12.0"
