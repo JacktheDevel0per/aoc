@@ -34,6 +34,11 @@ pub fn get_input() -> Vec<String> {
     lines_in
 }
 
+
+pub fn get_test_input(raw_str: &str) -> Vec<String> {
+    raw_str.lines().map(|s| s.to_string()).collect()
+}
+
 pub fn reverse_hashmap(map: &HashMap<u32, u32>) -> HashMap<u32, u32> {
     let mut new_map = HashMap::new();
 
